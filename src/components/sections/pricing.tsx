@@ -1,0 +1,178 @@
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Check, X } from "lucide-react";
+import Link from "next/link";
+
+interface PricingTier {
+  name: string;
+  tagline: string;
+  monthlyPrice: number;
+  yearlyMonthlyPrice: number;
+  popular?: boolean;
+  dark?: boolean;
+  features: { text: string; included: boolean; highlight?: boolean }[];
+  buttonText: string;
+  buttonClass: string;
+}
+
+const pricingTiers: PricingTier[] = [
+  {
+    name: "Silver",
+    tagline: "Perfect for smaller, single-vehicle operations.",
+    monthlyPrice: 5000,
+    yearlyMonthlyPrice: 4000,
+    features: [
+      { text: "Up to 5 Staff Users", included: true },
+      { text: "Core CRM & Ledgers", included: true },
+      { text: "Wastage & Asset Tracking", included: true },
+      { text: "5 Recipes (BoM)", included: true },
+      { text: "Live GPS Tracking", included: false },
+      { text: "WhatsApp Automation", included: false },
+    ],
+    buttonText: "Start Free Trial",
+    buttonClass: "bg-slate-100 text-slate-900 hover:bg-slate-200",
+  },
+  {
+    name: "Gold",
+    tagline: "The standard for growing multi-route plants.",
+    monthlyPrice: 10000,
+    yearlyMonthlyPrice: 8000,
+    popular: true,
+    features: [
+      { text: "Up to 15 Staff Users", included: true, highlight: true },
+      { text: "15 Recipes (BoM)", included: true, highlight: true },
+      { text: "Live GPS Tracking", included: true, highlight: true },
+      { text: "Expenses & Petty Cash", included: true, highlight: true },
+      { text: "Advanced Payroll & Khata", included: false },
+      { text: "WhatsApp Automation", included: false },
+    ],
+    buttonText: "Start Free Trial",
+    buttonClass: "bg-sky-600 text-white hover:bg-sky-700 shadow-md",
+  },
+  {
+    name: "Platinum",
+    tagline: "Enterprise control with unlimited automation.",
+    monthlyPrice: 15000,
+    yearlyMonthlyPrice: 12000,
+    dark: true,
+    features: [
+      { text: "Up to 30 Staff Users", included: true },
+      { text: "Unlimited Recipes (BoM)", included: true },
+      { text: "Fleet & Vehicle Mgmt", included: true },
+      { text: "Advanced Payroll & Khata", included: true },
+      { text: "Unlimited WhatsApp Sync", included: true, highlight: true },
+      { text: "Full Suite PDF Analytics", included: true },
+    ],
+    buttonText: "Start Free Trial",
+    buttonClass: "bg-white text-slate-900 hover:bg-slate-100",
+  },
+];
+
+export function Pricing() {
+  const [isYearly, setIsYearly] = useState(true);
+
+  const formatCurrency = (val: number) => `Rs ${val.toLocaleString("en-PK")}`;
+
+  return (
+    <section id="pricing" className="bg-slate-50 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Header & Toggle */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            Simple, transparent pricing.
+          </h2>
+          <p className="mt-4 text-lg text-slate-600">
+            Start with a 7-day free trial on the Gold tier. No credit card required.
+          </p>
+          
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <span className={`text-sm font-bold ${!isYearly ? "text-slate-900" : "text-slate-500"}`}>Pay Monthly</span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="relative inline-flex h-7 w-14 items-center rounded-full bg-sky-600 transition-colors focus:outline-none cursor-pointer"
+              aria-label="Toggle billing frequency"
+            >
+              <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${isYearly ? "translate-x-8" : "translate-x-1"}`} />
+            </button>
+            <span className={`flex items-center text-sm font-bold ${isYearly ? "text-slate-900" : "text-slate-500"}`}>
+              Pay Yearly 
+              <span className="ml-2 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] text-emerald-700 uppercase tracking-wider font-extrabold">20% Off</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Pricing Cards Grid */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-8 max-w-6xl mx-auto">
+          {pricingTiers.map((tier, index) => {
+            const currentPrice = isYearly ? tier.yearlyMonthlyPrice : tier.monthlyPrice;
+
+            return (
+              <motion.div
+                key={tier.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`flex flex-col rounded-3xl p-8 relative transition-all ${
+                  tier.dark
+                    ? "bg-slate-900 text-white border border-slate-800 shadow-xl"
+                    : tier.popular
+                    ? "bg-white border-2 border-sky-600 shadow-xl"
+                    : "bg-white border border-slate-200 shadow-sm"
+                }`}
+              >
+                {tier.popular && (
+                  <div className="absolute -top-4 left-0 right-0 mx-auto w-32 rounded-full bg-sky-600 px-3 py-1 text-center text-xs font-bold text-white uppercase tracking-wider shadow-sm">
+                    Most Popular
+                  </div>
+                )}
+
+                <h3 className={`text-xl font-bold ${tier.dark ? "text-white" : "text-slate-900"}`}>{tier.name}</h3>
+                <p className={`mt-2 text-sm ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>{tier.tagline}</p>
+                
+                <div className="mt-6 flex items-baseline gap-1">
+                  <span className={`text-4xl font-extrabold ${tier.dark ? "text-white" : "text-slate-900"}`}>
+                    {formatCurrency(currentPrice)}
+                  </span>
+                  <span className={`text-sm font-semibold ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>/mo</span>
+                </div>
+                
+                <Link 
+                  href="https://app.dedroply.com" 
+                  className={`mt-8 block w-full rounded-xl px-4 py-3 text-center text-sm font-bold transition-colors ${tier.buttonClass}`}
+                >
+                  {tier.buttonText}
+                </Link>
+                
+                <ul className="mt-8 space-y-4 flex-1">
+                  {tier.features.map((feature, fIndex) => (
+                    <li key={fIndex} className="flex items-center text-sm">
+                      {feature.included ? (
+                        <Check className={`mr-3 h-5 w-5 shrink-0 ${tier.dark ? "text-sky-400" : "text-sky-500"}`} />
+                      ) : (
+                        <X className="mr-3 h-5 w-5 shrink-0 text-slate-300" />
+                      )}
+                      <span className={
+                        !feature.included 
+                          ? "text-slate-400 line-through decoration-slate-300" 
+                          : feature.highlight 
+                          ? `font-bold ${tier.dark ? "text-white" : "text-slate-900"}` 
+                          : tier.dark ? "text-slate-300" : "text-slate-700"
+                      }>
+                        {feature.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
