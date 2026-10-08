@@ -1,21 +1,20 @@
 import * as yup from "yup";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 export const signupSchema = yup.object().shape({
-  fullName: yup
+  name: yup
     .string()
     .min(3, "Name must be at least 3 characters")
     .required("Full name is required"),
   phone: yup
     .string()
-    .matches(/^[0-9]{10,12}$/, "Enter a valid phone number (e.g., 03001234567)")
-    .required("Phone number is required"),
+    .required("Phone number is required")
+    .test("is-valid-phone", "Enter a valid phone number", (value) => {
+      return value ? isValidPhoneNumber(value) : false;
+    }),
   city: yup
     .string()
     .required("City is required"),
-  businessType: yup
-    .string()
-    .oneOf(["WATER", "LPG", "MILK", "OTHER"], "Select a valid business type")
-    .required("Business type is required"),
 });
 
 export type SignupFormData = yup.InferType<typeof signupSchema>;
