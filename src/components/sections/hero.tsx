@@ -1,50 +1,76 @@
-import Link from "next/link";
-import { ArrowRight, PlayCircle } from "lucide-react";
+"use client";
+
+import Image from "next/image";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { useSignup } from "@/components/providers/signup-modal-provider";
 
 export function Hero() {
+  const { openSignup } = useSignup();
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-sky-50 via-white to-white pt-24 pb-32">
+    <section className="relative overflow-hidden bg-linear-to-b from-sky-50/60 via-white to-white pt-20 pb-24 md:pt-28 md:pb-32">
+      {/* Subtle Background Glow */}
+      <div 
+        aria-hidden="true" 
+        className="pointer-events-none absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+      >
+        <div 
+          style={{
+            clipPath:
+              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+          }}
+          className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-sky-400 to-indigo-500 opacity-20 sm:left-[calc(50%-30rem)] sm:w-288.75" 
+        />
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         
-        <div className="mx-auto max-w-3xl space-y-8">
-          <div className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-sm font-medium text-sky-800">
-            <span className="flex h-2 w-2 rounded-full bg-sky-600 mr-2 animate-pulse"></span>
-            Now open for early access in Pakistan
+        {/* Main Copy */}
+        <div className="mx-auto max-w-3xl space-y-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-sky-50/80 px-3.5 py-1 text-xs sm:text-sm font-semibold text-sky-800 shadow-sm backdrop-blur-sm">
+            <Sparkles className="h-3.5 w-3.5 text-sky-600 animate-pulse" />
+            <span>Built for Water, LPG & Beverage Distribution</span>
           </div>
           
-          <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl leading-[1.1]">
-            The Operating System for <span className="text-sky-600 text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-indigo-600">Distribution</span>
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl sm:leading-[1.12]">
+            The Operating System for{" "}
+            <span className="bg-linear-to-r from-sky-600 via-sky-500 to-indigo-600 bg-clip-text text-transparent">
+              Direct Distribution
+            </span>
           </h1>
           
-          <p className="text-lg leading-relaxed text-slate-600 sm:text-xl">
-            Replace paper ledgers with automated digital khata, track every returnable asset, and dispatch riders instantly. Built specifically for Water, LPG, and Dairy businesses.
+          <p className="mx-auto max-w-2xl text-base sm:text-lg leading-relaxed text-slate-600">
+            Eliminate lost items deposits, reconcile customer advances instantly, and monitor rider routes in real time. Everything you need to scale daily route deliveries without paper ledgers.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link 
-              href="#pricing" 
-              className="flex w-full sm:w-auto items-center justify-center rounded-full bg-sky-600 px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-sky-600/20 hover:bg-sky-700 transition-all active:scale-95"
+          {/* Single Focused CTA */}
+          <div className="flex flex-col items-center justify-center pt-2">
+            <button
+              type="button"
+              onClick={openSignup}
+              className="group inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-xl shadow-slate-900/10 hover:bg-sky-600 hover:shadow-sky-600/25 transition-all duration-200 active:scale-95 cursor-pointer"
             >
-              Start 7-Day Free Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-            <Link 
-              href="#contact" 
-              className="flex w-full sm:w-auto items-center justify-center rounded-full bg-white border border-slate-200 px-8 py-3.5 text-base font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
-            >
-              <PlayCircle className="mr-2 h-5 w-5 text-slate-400" />
-              Book a Demo
-            </Link>
+              Book a Free Demo
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+            <p className="mt-3 text-xs sm:text-sm text-slate-400 font-medium">
+              Free 15-minute onboarding • No setup fee • No credit card required
+            </p>
           </div>
-          <p className="text-sm text-slate-500 font-medium">No credit card required. Setup in 5 minutes.</p>
         </div>
 
-        {/* Dashboard Mockup Placeholder */}
-        <div className="mx-auto mt-16 max-w-5xl">
-          <div className="relative rounded-2xl border border-slate-200 bg-white/50 p-2 shadow-2xl backdrop-blur-sm sm:p-4">
-            <div className="overflow-hidden rounded-xl border border-slate-100 bg-slate-100 aspect-[16/9] flex items-center justify-center">
-               {/* Replace this div with your actual dashboard screenshot (next/image) later */}
-               <span className="text-slate-400 font-medium">App Dashboard Screenshot Preview</span>
+        {/* Dashboard Mockup Display */}
+        <div className="mx-auto mt-14 max-w-5xl">
+          <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200/80 bg-white/70 p-2 sm:p-3 shadow-2xl shadow-sky-950/10 backdrop-blur-md">
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-slate-100 bg-slate-900 aspect-16/10 sm:aspect-video shadow-inner">
+              <Image
+                src="/preview.jpg"
+                alt="Droply Distribution Command Center Dashboard"
+                fill
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className="object-cover object-top"
+              />
             </div>
           </div>
         </div>

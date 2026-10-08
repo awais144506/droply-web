@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, X } from "lucide-react";
-import Link from "next/link";
+import { Check, X, Sparkles } from "lucide-react";
+import { useSignup } from "@/components/providers/signup-modal-provider";
 
 interface PricingTier {
   name: string;
@@ -49,7 +49,7 @@ const pricingTiers: PricingTier[] = [
       { text: "WhatsApp Automation", included: false },
     ],
     buttonText: "Start Free Trial",
-    buttonClass: "bg-sky-600 text-white hover:bg-sky-700 shadow-md",
+    buttonClass: "bg-amber-600 text-white hover:bg-amber-700 shadow-lg shadow-amber-600/20",
   },
   {
     name: "Platinum",
@@ -72,33 +72,37 @@ const pricingTiers: PricingTier[] = [
 
 export function Pricing() {
   const [isYearly, setIsYearly] = useState(true);
+  const { openSignup } = useSignup();
 
   const formatCurrency = (val: number) => `Rs ${val.toLocaleString("en-PK")}`;
 
   return (
     <section id="pricing" className="bg-slate-50 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header & Toggle */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Simple, transparent pricing.
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl uppercase">
+            Simple & transparent
+          </h2>
+          <h2 className="text-xl font-bold tracking-tight text-slate-600 sm:text-4xl">
+            No hidden fees for additional features.
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            Start with a 7-day free trial on the Gold tier. No credit card required.
+            Start with a 7-day free platinum trial. What you see is what you pay.
           </p>
-          
+
           <div className="mt-8 flex items-center justify-center gap-4">
             <span className={`text-sm font-bold ${!isYearly ? "text-slate-900" : "text-slate-500"}`}>Pay Monthly</span>
             <button
               onClick={() => setIsYearly(!isYearly)}
-              className="relative inline-flex h-7 w-14 items-center rounded-full bg-sky-600 transition-colors focus:outline-none cursor-pointer"
+              className="relative inline-flex h-7 w-14 items-center rounded-full bg-amber-600 transition-colors focus:outline-none cursor-pointer"
               aria-label="Toggle billing frequency"
             >
               <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${isYearly ? "translate-x-8" : "translate-x-1"}`} />
             </button>
             <span className={`flex items-center text-sm font-bold ${isYearly ? "text-slate-900" : "text-slate-500"}`}>
-              Pay Yearly 
+              Pay Yearly
               <span className="ml-2 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] text-emerald-700 uppercase tracking-wider font-extrabold">20% Off</span>
             </span>
           </div>
@@ -116,51 +120,52 @@ export function Pricing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`flex flex-col rounded-3xl p-8 relative transition-all ${
-                  tier.dark
+                className={`flex flex-col rounded-3xl p-8 relative transition-all ${tier.dark
                     ? "bg-slate-900 text-white border border-slate-800 shadow-xl"
                     : tier.popular
-                    ? "bg-white border-2 border-sky-600 shadow-xl"
-                    : "bg-white border border-slate-200 shadow-sm"
-                }`}
+                      ? "bg-linear-to-b from-amber-50/50 via-white to-white border-2 border-amber-400 shadow-xl ring-4 ring-amber-400/10"
+                      : "bg-white border border-slate-200 shadow-sm"
+                  }`}
               >
                 {tier.popular && (
-                  <div className="absolute -top-4 left-0 right-0 mx-auto w-32 rounded-full bg-sky-600 px-3 py-1 text-center text-xs font-bold text-white uppercase tracking-wider shadow-sm">
+                  <div className="absolute -top-4 left-0 right-0 mx-auto w-36 rounded-full bg-amber-500 px-3 py-1 text-center text-xs font-bold text-white uppercase tracking-wider shadow-md flex items-center justify-center gap-1">
+                    <Sparkles className="h-3 w-3" />
                     Most Popular
                   </div>
                 )}
 
                 <h3 className={`text-xl font-bold ${tier.dark ? "text-white" : "text-slate-900"}`}>{tier.name}</h3>
                 <p className={`mt-2 text-sm ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>{tier.tagline}</p>
-                
+
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className={`text-4xl font-extrabold ${tier.dark ? "text-white" : "text-slate-900"}`}>
                     {formatCurrency(currentPrice)}
                   </span>
                   <span className={`text-sm font-semibold ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>/mo</span>
                 </div>
-                
-                <Link 
-                  href="https://app.dedroply.com" 
-                  className={`mt-8 block w-full rounded-xl px-4 py-3 text-center text-sm font-bold transition-colors ${tier.buttonClass}`}
+
+                <button
+                  type="button"
+                  onClick={openSignup}
+                  className={`mt-8 block w-full rounded-xl px-4 py-3 text-center text-sm font-bold transition-all active:scale-[0.98] cursor-pointer ${tier.buttonClass}`}
                 >
                   {tier.buttonText}
-                </Link>
-                
+                </button>
+
                 <ul className="mt-8 space-y-4 flex-1">
                   {tier.features.map((feature, fIndex) => (
                     <li key={fIndex} className="flex items-center text-sm">
                       {feature.included ? (
-                        <Check className={`mr-3 h-5 w-5 shrink-0 ${tier.dark ? "text-sky-400" : "text-sky-500"}`} />
+                        <Check className={`mr-3 h-5 w-5 shrink-0 ${tier.popular ? "text-amber-600" : tier.dark ? "text-sky-400" : "text-sky-500"}`} />
                       ) : (
                         <X className="mr-3 h-5 w-5 shrink-0 text-slate-300" />
                       )}
                       <span className={
-                        !feature.included 
-                          ? "text-slate-400 line-through decoration-slate-300" 
-                          : feature.highlight 
-                          ? `font-bold ${tier.dark ? "text-white" : "text-slate-900"}` 
-                          : tier.dark ? "text-slate-300" : "text-slate-700"
+                        !feature.included
+                          ? "text-slate-400 line-through decoration-slate-300"
+                          : feature.highlight
+                            ? `font-bold ${tier.dark ? "text-white" : "text-slate-900"}`
+                            : tier.dark ? "text-slate-300" : "text-slate-700"
                       }>
                         {feature.text}
                       </span>

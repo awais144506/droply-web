@@ -5,24 +5,17 @@ import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "We were losing track of at least 40 to 50 expensive 19L bottles every single week with paper registers. Droply's returnable asset tracking completely plugged that leak in our first month.",
-    author: "Malik Usman",
+    quote: "Managing heavy workshop parts, aluminum structures, and components for our solar projects used to be a logistical nightmare with manual logs. Droply's asset and inventory structure gave us complete visibility from warehouse to installation site.",
+    author: "Qamar Rasheed",
+    role: "CEO",
+    company: "Power Bridge Solar Company",
+    rating: 5,
+  },
+  {
+    quote: "As a growing water plant, tracking 19L bottle deposits and daily customer credit was always messy. Since adopting Droply, our daily reconciliation takes minutes instead of hours, and our customers appreciate the absolute accuracy of their digital ledgers.",
+    author: "Ch Muhammad Rasheed Anjum",
     role: "Owner",
-    company: "Al-Madina Pure Drinking Water, Sahiwal",
-    rating: 5,
-  },
-  {
-    quote: "Assigning delivery zones to my riders and matching physical cash collection against app data at night used to take hours. Now it takes 5 minutes.",
-    author: "Chaudhry Bilal",
-    role: "Operations Manager",
-    company: "Chenab LPG & Cylinder Services",
-    rating: 5,
-  },
-  {
-    quote: "The zero-cost WhatsApp receipt sync is an absolute game-changer. Our customers love getting instant delivery notes directly from our plant's official number.",
-    author: "Sheikh Tariq",
-    role: "Managing Director",
-    company: "FreshLife Dairy Distribution",
+    company: "Blue Mist Water Plant",
     rating: 5,
   },
 ];
@@ -40,14 +33,14 @@ export function Testimonials() {
           className="mx-auto max-w-2xl text-center mb-16"
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Trusted by modern plant owners.
+            Trusted by industry leaders.
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            See how distribution businesses across the region are scaling operations with Droply.
+            See how distribution and heavy asset businesses scale their operations with Droply.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-4xl mx-auto">
           {testimonials.map((t, index) => (
             <motion.div
               key={index}

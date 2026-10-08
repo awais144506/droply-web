@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 
 const metrics = [
-  { id: 1, value: "100+", label: "Distribution Hubs" },
-  { id: 2, value: "500k+", label: "Bottles Tracked" },
-  { id: 3, value: "Rs 50M+", label: "Khata Managed" },
-  { id: 4, value: "Zero", label: "WhatsApp API Fees" },
+  { id: 1, value: "5 Min", label: "Account Setup" },
+  { id: 2, value: "Zero", label: "Hidden Fees" },
+  { id: 3, value: "24/7", label: "Cloud Backup" },
+  { id: 4, value: "Unlimited", label: "Customers" },
 ];
 
 export function SocialProof() {
@@ -14,7 +14,7 @@ export function SocialProof() {
     <section className="border-y border-slate-200 bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-widest mb-8">
-          Trusted by growing distribution businesses
+          Built for speed. No technical skills required.
         </p>
         
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">

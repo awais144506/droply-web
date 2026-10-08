@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SignupProvider } from "@/components/providers/signup-modal-provider";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/sections/cta-footer";
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +40,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="h-full antialiased scroll-smooth">
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
         <SignupProvider>
-          {children}
+          <Navbar />
+          <main className="grow flex flex-col">
+            {children}
+          </main>
+          <Footer />
         </SignupProvider>
       </body>
     </html>
