@@ -32,7 +32,7 @@ const features = [
         icon: <Truck className="h-6 w-6 text-amber-600" />,
         title: "Production & Vehicle Management",
         description: "Monitor your daily production batches and manage your delivery fleet. Keep tabs on vehicle maintenance, fuel costs, and daily dispatch readiness all in one unified place.",
-        imageSrc: "/placeholder-dispatch.png", // <-- Replace with your AI image path
+        imageSrc: "/placeholder-vehicles.png", // <-- Replace with your AI image path
         imageAlt: "Vehicle and Production Management",
     },
 ];

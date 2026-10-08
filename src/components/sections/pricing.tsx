@@ -24,12 +24,14 @@ const pricingTiers: PricingTier[] = [
     monthlyPrice: 5000,
     yearlyMonthlyPrice: 4000,
     features: [
-      { text: "Up to 5 Staff Users", included: true },
-      { text: "Core CRM & Ledgers", included: true },
+      { text: "Up to 4 Staff Users", included: true, highlight: true },
+      { text: "Zones, Customers & Products", included: true },
+      { text: "Deliveries & Invoices", included: true },
       { text: "Wastage & Asset Tracking", included: true },
-      { text: "5 Recipes (BoM)", included: true },
+      { text: "Suppliers & Expenses Khata", included: true },
+      { text: "Vehicle Fleet & Payroll", included: true },
       { text: "Live GPS Tracking", included: false },
-      { text: "WhatsApp Automation", included: false },
+      { text: "Production Module", included: false },
     ],
     buttonText: "Start Free Trial",
     buttonClass: "bg-slate-100 text-slate-900 hover:bg-slate-200",
@@ -41,29 +43,30 @@ const pricingTiers: PricingTier[] = [
     yearlyMonthlyPrice: 8000,
     popular: true,
     features: [
-      { text: "Up to 15 Staff Users", included: true, highlight: true },
-      { text: "15 Recipes (BoM)", included: true, highlight: true },
-      { text: "Live GPS Tracking", included: true, highlight: true },
-      { text: "Expenses & Petty Cash", included: true, highlight: true },
-      { text: "Advanced Payroll & Khata", included: false },
-      { text: "WhatsApp Automation", included: false },
+      { text: "Up to 7 Staff Users", included: true, highlight: true },
+      { text: "Everything in Silver", included: true },
+      { text: "Sale Returns & Recovery", included: true, highlight: true },
+      { text: "Purchase Orders & Payments", included: true, highlight: true },
+      { text: "Purchase Returns", included: true },
+      { text: "Live GPS Tracking", included: false },
+      { text: "Production Module", included: false },
     ],
     buttonText: "Start Free Trial",
     buttonClass: "bg-amber-600 text-white hover:bg-amber-700 shadow-lg shadow-amber-600/20",
   },
   {
     name: "Platinum",
-    tagline: "Enterprise control with unlimited automation.",
+    tagline: "Enterprise control with full operations suite.",
     monthlyPrice: 15000,
     yearlyMonthlyPrice: 12000,
     dark: true,
     features: [
-      { text: "Up to 30 Staff Users", included: true },
-      { text: "Unlimited Recipes (BoM)", included: true },
-      { text: "Fleet & Vehicle Mgmt", included: true },
-      { text: "Advanced Payroll & Khata", included: true },
-      { text: "Unlimited WhatsApp Sync", included: true, highlight: true },
-      { text: "Full Suite PDF Analytics", included: true },
+      { text: "Up to 10 Staff Users", included: true, highlight: true },
+      { text: "Everything in Gold", included: true },
+      { text: "Production Module (BoM)", included: true, highlight: true },
+      { text: "Live GPS Tracking (GPS)", included: true, highlight: true },
+      { text: "Assigned Field Tasks", included: true },
+      { text: "Priority Support & Setup", included: true },
     ],
     buttonText: "Start Free Trial",
     buttonClass: "bg-white text-slate-900 hover:bg-slate-100",
@@ -82,10 +85,10 @@ export function Pricing() {
 
         {/* Header & Toggle */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl uppercase">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl uppercase">
             Simple & transparent
           </h2>
-          <h2 className="text-xl font-bold tracking-tight text-slate-600 sm:text-4xl">
+          <h2 className="text-xl font-bold tracking-tight text-slate-600">
             No hidden fees for additional features.
           </h2>
           <p className="mt-4 text-lg text-slate-600">
