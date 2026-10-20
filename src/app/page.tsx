@@ -6,6 +6,7 @@ import { Pricing } from "@/components/sections/pricing";
 import { Testimonials } from "@/components/sections/testimonials";
 import { FloatingWhatsApp } from "@/components/ui/floating-whatsapp";
 import ActionSection from "@/components/sections/action";
+import { MobileAppBanner } from "@/components/sections/mobile-app-banner";
 
 export default function LandingPage() {
   return (
@@ -18,6 +19,7 @@ export default function LandingPage() {
         <Pricing />
         <Testimonials />
         <ActionSection />
+        <MobileAppBanner />
       </main>
       <FloatingWhatsApp />
     </>

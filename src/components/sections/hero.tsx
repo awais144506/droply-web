@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Download } from "lucide-react";
 import { useSignup } from "@/components/providers/signup-modal-provider";
 
 export function Hero() {
   const { openSignup } = useSignup();
+  const apkUrl = process.env.NEXT_PUBLIC_MOBILE_APK_URL || "#";
 
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-sky-50/60 via-white to-white pt-20 pb-24 md:pt-28 md:pb-32">
@@ -43,17 +44,29 @@ export function Hero() {
             Eliminate lost items deposits, reconcile customer advances instantly, and monitor rider routes in real time. Everything you need to scale daily route deliveries without paper ledgers.
           </p>
           
-          {/* Single Focused CTA */}
-          <div className="flex flex-col items-center justify-center pt-2">
-            <button
-              type="button"
-              onClick={openSignup}
-              className="group inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-xl shadow-slate-900/10 hover:bg-sky-600 hover:shadow-sky-600/25 transition-all duration-200 active:scale-95 cursor-pointer"
-            >
-              Book a Free Demo
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </button>
-            <p className="mt-3 text-xs sm:text-sm text-slate-400 font-medium">
+          {/* CTA Buttons */}
+          <div className="flex flex-col items-center justify-center pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+              <button
+                type="button"
+                onClick={openSignup}
+                className="group inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-xl shadow-slate-900/10 hover:bg-sky-600 hover:shadow-sky-600/25 transition-all duration-200 active:scale-95 cursor-pointer w-full sm:w-auto"
+              >
+                Book a Free Demo
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
+
+              {/* App Download Link - Forces direct file download */}
+              <a
+                href={apkUrl}
+                download="Droply Rider.apk"
+                className="group inline-flex items-center justify-center rounded-full bg-white border-2 border-slate-200 px-8 py-4 text-base font-bold text-slate-800 shadow-xl shadow-slate-200/20 hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-95 cursor-pointer w-full sm:w-auto"
+              >
+                <Download className="mr-2 h-5 w-5 transition-transform group-hover:-translate-y-0.5" />
+                Download Android App
+              </a>
+            </div>
+            <p className="mt-4 text-xs sm:text-sm text-slate-400 font-medium">
               Free 15-minute onboarding • No setup fee • No credit card required
             </p>
           </div>

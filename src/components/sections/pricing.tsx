@@ -9,7 +9,6 @@ interface PricingTier {
   name: string;
   tagline: string;
   monthlyPrice: number;
-  yearlyMonthlyPrice: number;
   popular?: boolean;
   dark?: boolean;
   features: { text: string; included: boolean; highlight?: boolean }[];
@@ -21,8 +20,7 @@ const pricingTiers: PricingTier[] = [
   {
     name: "Silver",
     tagline: "Perfect for smaller, single-vehicle operations.",
-    monthlyPrice: 5000,
-    yearlyMonthlyPrice: 4000,
+    monthlyPrice: 4000,
     features: [
       { text: "Up to 4 Staff Users", included: true, highlight: true },
       { text: "Zones, Customers & Products", included: true },
@@ -39,8 +37,7 @@ const pricingTiers: PricingTier[] = [
   {
     name: "Gold",
     tagline: "The standard for growing multi-route plants.",
-    monthlyPrice: 10000,
-    yearlyMonthlyPrice: 8000,
+    monthlyPrice: 8000,
     popular: true,
     features: [
       { text: "Up to 7 Staff Users", included: true, highlight: true },
@@ -57,8 +54,7 @@ const pricingTiers: PricingTier[] = [
   {
     name: "Platinum",
     tagline: "Enterprise control with full operations suite.",
-    monthlyPrice: 15000,
-    yearlyMonthlyPrice: 12000,
+    monthlyPrice: 12000,
     dark: true,
     features: [
       { text: "Up to 10 Staff Users", included: true, highlight: true },
@@ -74,7 +70,8 @@ const pricingTiers: PricingTier[] = [
 ];
 
 export function Pricing() {
-  const [isYearly, setIsYearly] = useState(true);
+  // Set to false by default so it starts on Monthly
+  const [isYearly, setIsYearly] = useState(false);
   const { openSignup } = useSignup();
 
   const formatCurrency = (val: number) => `Rs ${val.toLocaleString("en-PK")}`;
@@ -114,7 +111,10 @@ export function Pricing() {
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-8 max-w-6xl mx-auto">
           {pricingTiers.map((tier, index) => {
-            const currentPrice = isYearly ? tier.yearlyMonthlyPrice : tier.monthlyPrice;
+            const originalYearlyTotal = tier.monthlyPrice * 12;
+            const discountedYearlyTotal = originalYearlyTotal * 0.8;
+            const currentPrice = isYearly ? discountedYearlyTotal : tier.monthlyPrice;
+            const periodLabel = isYearly ? "/yr" : "/mo";
 
             return (
               <motion.div
@@ -124,10 +124,10 @@ export function Pricing() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className={`flex flex-col rounded-3xl p-8 relative transition-all ${tier.dark
-                    ? "bg-slate-900 text-white border border-slate-800 shadow-xl"
-                    : tier.popular
-                      ? "bg-linear-to-b from-amber-50/50 via-white to-white border-2 border-amber-400 shadow-xl ring-4 ring-amber-400/10"
-                      : "bg-white border border-slate-200 shadow-sm"
+                  ? "bg-slate-900 text-white border border-slate-800 shadow-xl"
+                  : tier.popular
+                    ? "bg-linear-to-b from-amber-50/50 via-white to-white border-2 border-amber-400 shadow-xl ring-4 ring-amber-400/10"
+                    : "bg-white border border-slate-200 shadow-sm"
                   }`}
               >
                 {tier.popular && (
@@ -140,17 +140,31 @@ export function Pricing() {
                 <h3 className={`text-xl font-bold ${tier.dark ? "text-white" : "text-slate-900"}`}>{tier.name}</h3>
                 <p className={`mt-2 text-sm ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>{tier.tagline}</p>
 
-                <div className="mt-6 flex items-baseline gap-1">
-                  <span className={`text-4xl font-extrabold ${tier.dark ? "text-white" : "text-slate-900"}`}>
-                    {formatCurrency(currentPrice)}
-                  </span>
-                  <span className={`text-sm font-semibold ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>/mo</span>
+                <div className="mt-6 flex flex-col justify-center min-h-20">
+                  {/* Show Strikethrough Price only when Yearly is selected */}
+                  {isYearly ? (
+                    <span className={`text-lg font-bold line-through mb-1 ${tier.dark ? "text-slate-400" : "text-slate-400"}`}>
+                      {formatCurrency(originalYearlyTotal)}
+                    </span>
+                  ) : (
+                    // Placeholder to keep the heights aligned when monthly is selected
+                    <span className="text-sm font-semibold mb-1 opacity-0">Placeholder</span>
+                  )}
+
+                  <div className="flex items-baseline gap-1">
+                    <span className={`text-4xl font-extrabold ${tier.dark ? "text-white" : "text-slate-900"}`}>
+                      {formatCurrency(currentPrice)}
+                    </span>
+                    <span className={`text-sm font-semibold ${tier.dark ? "text-slate-400" : "text-slate-500"}`}>
+                      {periodLabel}
+                    </span>
+                  </div>
                 </div>
 
                 <button
                   type="button"
                   onClick={openSignup}
-                  className={`mt-8 block w-full rounded-xl px-4 py-3 text-center text-sm font-bold transition-all active:scale-[0.98] cursor-pointer ${tier.buttonClass}`}
+                  className={`mt-6 block w-full rounded-xl px-4 py-3 text-center text-sm font-bold transition-all active:scale-[0.98] cursor-pointer ${tier.buttonClass}`}
                 >
                   {tier.buttonText}
                 </button>
