@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { Loader2, X, CheckCircle2 } from "lucide-react";
-import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { signupSchema, SignupFormData } from "../schema/signup.schema";
+import { FormInput } from "../ui/form-input";
+import { FormPhoneInput } from "../ui/form-phone-input";
+import { FormProvider } from "react-hook-form";
 
 
 interface SignupModalProps {
@@ -19,7 +21,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
     const [isPending, setIsPending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const { register, handleSubmit, control, formState: { errors }, reset } = useForm<SignupFormData>({
+    const methods = useForm<SignupFormData>({
         resolver: yupResolver(signupSchema),
         mode: "onChange",
         defaultValues: {
@@ -29,6 +31,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
         },
     });
 
+    const { handleSubmit, reset } = methods;
     if (!isOpen) return null;
 
     const onSubmit = async (data: SignupFormData) => {
@@ -79,81 +82,60 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                         </p>
                     </div>
                 ) : (
-                    <div className="space-y-6">
-                        <div>
-                            <h3 className="text-2xl font-bold tracking-tight text-slate-900">
-                                Enter your contact details.
-                            </h3>
-                        </div>
+                    <FormProvider {...methods}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="space-y-6">
+                                <div>
+                                    <h3 className="text-2xl font-bold tracking-tight text-slate-900">
+                                        Enter your contact details.
+                                    </h3>
+                                </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            {/* Full Name */}
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Full Name *</label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g. Malik Usman"
-                                    {...register("name")}
-                                    className={`w-full h-11 px-4 rounded-xl border bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:bg-white ${errors.name ? "border-rose-300 focus:ring-rose-500" : "border-slate-200 focus:ring-sky-500/20 focus:border-sky-500"}`}
-                                />
-                                {errors.name && <p className="text-[11px] font-medium text-rose-500 mt-1">{errors.name.message}</p>}
+
+                                <div className="space-y-1.5">
+                                    <FormInput
+                                        label="Name"
+                                        name="name"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <FormPhoneInput
+                                        label="Contact Number"
+                                        name="phone"
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <FormInput
+                                        label="City"
+                                        name="city"
+                                        required
+                                    />
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className="pt-4">
+                                    <button
+                                        type="submit"
+                                        disabled={isPending}
+                                        className="w-full flex items-center justify-center rounded-xl bg-sky-600 h-12 text-base font-bold text-white shadow-lg shadow-sky-600/20 hover:bg-sky-700 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                                    >
+                                        {isPending ? (
+                                            <><Loader2 className="h-5 w-5 animate-spin mr-2" /> Submitting...</>
+                                        ) : (
+                                            "Start 7-Day Free Trial"
+                                        )}
+                                    </button>
+                                </div>
+
+                                <p className="text-center text-xs text-slate-400 mt-3">
+                                    By signing up, you agree to Droply&apos;s Terms of Service and Privacy Policy. No credit card required.
+                                </p>
                             </div>
-
-                            {/* International Phone Number */}
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Phone Number *</label>
-                                <Controller
-                                    name="phone"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <div className={`flex items-center w-full h-11 px-3 rounded-xl border bg-slate-50 focus-within:bg-white focus-within:ring-2 transition-all ${errors.phone ? "border-rose-300 focus-within:ring-rose-500" : "border-slate-200 focus-within:ring-sky-500/20 focus-within:border-sky-500"}`}>
-                                            <PhoneInput
-                                                {...field}
-                                                international
-                                                defaultCountry="PK"
-                                                className="w-full text-sm font-mono outline-none"
-                                                numberInputProps={{
-                                                    className: "w-full bg-transparent outline-none ml-2 font-mono text-slate-900 placeholder:text-slate-400"
-                                                }}
-                                            />
-                                        </div>
-                                    )}
-                                />
-                                {errors.phone && <p className="text-[11px] font-medium text-rose-500 mt-1">{errors.phone.message}</p>}
-                            </div>
-
-                            {/* City */}
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">City *</label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g. Lahore"
-                                    {...register("city")}
-                                    className={`w-full h-11 px-4 rounded-xl border bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:bg-white ${errors.city ? "border-rose-300 focus:ring-rose-500" : "border-slate-200 focus:ring-sky-500/20 focus:border-sky-500"}`}
-                                />
-                                {errors.city && <p className="text-[11px] font-medium text-rose-500 mt-1">{errors.city.message}</p>}
-                            </div>
-
-                            {/* Submit Button */}
-                            <div className="pt-4">
-                                <button
-                                    type="submit"
-                                    disabled={isPending}
-                                    className="w-full flex items-center justify-center rounded-xl bg-sky-600 h-12 text-base font-bold text-white shadow-lg shadow-sky-600/20 hover:bg-sky-700 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
-                                >
-                                    {isPending ? (
-                                        <><Loader2 className="h-5 w-5 animate-spin mr-2" /> Submitting...</>
-                                    ) : (
-                                        "Start 7-Day Free Trial"
-                                    )}
-                                </button>
-                            </div>
-
-                            <p className="text-center text-xs text-slate-400 mt-3">
-                                By signing up, you agree to Droply&apos;s Terms of Service and Privacy Policy. No credit card required.
-                            </p>
                         </form>
-                    </div>
+                    </FormProvider>
                 )}
             </div>
         </div>
