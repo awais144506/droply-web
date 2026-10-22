@@ -5,8 +5,9 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/sections/cta-footer";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: {
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main className="grow flex flex-col">
             {children}
+            <Toaster />
           </main>
           <Footer />
         </SignupProvider>

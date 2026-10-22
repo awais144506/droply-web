@@ -42,14 +42,22 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error("Failed to submit lead");
+            const responseData = await response.json();
+            if (!response.ok) {
+                const rawMessage = responseData?.message || "Failed to submit lead";
+                const errorMessage = Array.isArray(rawMessage) ? rawMessage[0] : rawMessage;
+                throw new Error(errorMessage);
+            }
+
             setIsSuccess(true);
-            toast.success("Details submitted successfully!");
+            toast.success("Details submitted successfully!", { position: "top-center" });
             setTimeout(() => {
                 window.location.href = "https://dedroply.com";
             }, 2000);
         } catch (err: any) {
-            toast.error(err.message);
+            toast.error(err.message || "Something went wrong.", { position: "top-center" });
+        } finally {
+            // Ensure isPending is always reset whether success or failure
             setIsPending(false);
         }
     };
