@@ -41,7 +41,7 @@ export function Hero() {
           </h1>
           
           <p className="mx-auto max-w-2xl text-base sm:text-lg leading-relaxed text-slate-600">
-            Eliminate lost items deposits, reconcile customer advances instantly, and monitor rider routes in real time. Everything you need to scale daily route deliveries without paper ledgers.
+            Eliminate lost items deposits, reconcile customer advances instantly, and monitor rider routes in real time. Everything you need to scale daily route deliveries without paper.
           </p>
           
           {/* CTA Buttons */}

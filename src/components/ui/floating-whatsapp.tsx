@@ -1,6 +1,6 @@
 export function FloatingWhatsApp() {
   // Replace with your actual business WhatsApp number
-  const phoneNumber = "923116631476";
+  const phoneNumber=process.env.NEXT_PUBLIC_WHATSAPP
   const message = encodeURIComponent("Hi Droply team, I'd like to learn more about your distribution software.");
 
   return (
